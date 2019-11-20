@@ -6,6 +6,9 @@ const name = "maplestory";
 
 var genresArray = [];
 var gameID;
+var gName;
+var description;
+var website;
 const querystr = `https://api.rawg.io/api/games?search=${name}`;
 const text = `https://api.rawg.io/api/games/${gameID}`;
 
@@ -14,6 +17,9 @@ const text = `https://api.rawg.io/api/games/${gameID}`;
 }).catch(err=>{
     console.log(err);
 });*/
+
+
+
 axios.get(querystr).then(res =>{
     //Check if data exist in database
     var ids = res.data.results[0].id;
@@ -31,7 +37,11 @@ axios.get(querystr).then(res =>{
             }
             /* END GENRE ARRAY COUNT */
             gameID = res.data.results[0].id;
-            axios.get()
+            axios.get(text).then(res2 =>{
+                console.log(res2);
+            }).catch(err2 => {
+                console.log(err2);
+            });
             /* INSEART SEARCH RESULT INTO DATABASE */
             const DB = new Index({
                 id                  :res.data.results[0].id,
