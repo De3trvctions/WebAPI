@@ -16,18 +16,24 @@ const text = `https://api.rawg.io/api/games/9810`;
 var genresArray = [];
 axios.get(querystr).then(res =>{
     //console.log(res.data.results[0].id);
+
+    //Check the length of the genres array and write it into the array declared.
+    /* START GENRE ARRAY COUNT */
     var count = res.data.results[0].genres.length;
     var i;
     for (i = 0; i < count; i++) {
         genresArray[i] = res.data.results[0].genres[i].name;
-      }
+    }
+    /* END GENRE ARRAY COUNT */
+
+    /* INSEART SEARCH RESULT INTO DATABASE */
     const DB = new Index({
-        id:res.data.results[0].id,
-        name :res.data.results[0].name,
-        rating :res.data.results[0].rating,
-        release : res.data.results[0].released,
-        background_image : res.data.results[0].background_image,
-        genres : genresArray
+        id                  :res.data.results[0].id,
+        name                :res.data.results[0].name,
+        rating              :res.data.results[0].rating,
+        release             :res.data.results[0].released,
+        background_image    :res.data.results[0].background_image,
+        genres              :genresArray
     });
    
     DB.save().then(result =>{
