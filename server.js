@@ -2,11 +2,10 @@ const axios = require('axios');
 const express = require('express');
 const Index = require('./database');
 const app = express();
-const name = "maplestory";
+const name = "Ark Survival";
 
 var genresArray = [];
 var gameID;
-var gName;
 var description;
 var website;
 const querystr = `https://api.rawg.io/api/games?search=${name}`;
@@ -17,8 +16,6 @@ const text = `https://api.rawg.io/api/games/${gameID}`;
 }).catch(err=>{
     console.log(err);
 });*/
-
-
 
 axios.get(querystr).then(res =>{
     //Check if data exist in database
@@ -38,26 +35,29 @@ axios.get(querystr).then(res =>{
             /* END GENRE ARRAY COUNT */
             gameID = res.data.results[0].id;
             axios.get(text).then(res2 =>{
-                console.log(res2);
+                //website = res2.data.website;
+                /* INSEART SEARCH RESULT INTO DATABASE */
+                const DB = new Index({
+                    id                  :res.data.results[0].id,
+                    name                :res.data.results[0].name,
+                    rating              :res.data.results[0].rating,
+                    release             :res.data.results[0].released,
+                    background_image    :res.data.results[0].background_image,
+                    genres              :genresArray,
+                    description         :res2.data.description,
+                    website             :res2.data.website
+                });
+                // START SAVING INTO DB //
+                DB.save().then(result =>{
+                    console.log("Success" + result);
+                }).catch(err =>{
+                    console.log("Error" + err);
+                })
+                // END SAVING INTO DB //
             }).catch(err2 => {
                 console.log(err2);
             });
-            /* INSEART SEARCH RESULT INTO DATABASE */
-            const DB = new Index({
-                id                  :res.data.results[0].id,
-                name                :res.data.results[0].name,
-                rating              :res.data.results[0].rating,
-                release             :res.data.results[0].released,
-                background_image    :res.data.results[0].background_image,
-                genres              :genresArray
-            });
-            // START SAVING INTO DB //
-            DB.save().then(result =>{
-                console.log("Success" + result);
-            }).catch(err =>{
-                console.log("Error" + err);
-            })
-            // END SAVING INTO DB //
+            
         }
     }).catch(err => {
         console.log(err);

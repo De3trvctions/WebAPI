@@ -27,12 +27,11 @@ const schema = new mongoose.Schema({
         type: Object
     }],
     description:{
-        type: Number
+        type: String
     },
     website:{
         type: String
     }
-
 });
 
 const Index = mongoose.model("gameData", schema);
