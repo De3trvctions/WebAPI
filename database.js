@@ -34,5 +34,5 @@ const schema = new mongoose.Schema({
     }
 });
 
-const Index = mongoose.model("gameData", schema);
+const Index = mongoose.model("gameData", schema, 'gamedatas');
 module.exports = Index;

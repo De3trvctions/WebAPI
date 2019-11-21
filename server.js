@@ -85,15 +85,16 @@ axios.get(querystr).then(res =>{
 });
 console.log("END Search")
 
-app.get('/getAllRecord', (req,res)=> {
-    console.log("huh?");
-    Index.find({}).then(response => {
-        res.status(200).json(response.data);
-    })
-    .catch(error => {
-        res.status(400).json(error);
-    });
+app.get('/getAllRecord', async (req,res)=> {
+    var a = await Index.find({})
+    res.send(a);
 });
+
+app.get('/getARecord', async (req,res)=>{
+    var a = await Index.findById({_id:'5dd600eb76e25f2a38da31c8'})
+    res.send(a);
+});
+
 app.listen(5000, ()=>{
     console.log('server listening on post 5000');
 });
